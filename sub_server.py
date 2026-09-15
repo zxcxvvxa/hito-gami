@@ -321,4 +321,3 @@ if __name__ == '__main__':
     server = HTTPServer(('0.0.0.0', PORT), SubHandler)
     print(f"Subscription server running on port {PORT}...")
     server.serve_forever()
-
