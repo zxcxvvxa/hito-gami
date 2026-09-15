@@ -108,7 +108,7 @@ def generate_subscription(host_header):
     return base64.b64encode(raw_payload.encode('utf-8'))
 
 def generate_raw_client_config(host_header):
-    """Returns exact template JSON with dynamic authority and updated outbound routing for vless-grpc."""
+    """Generates valid Xray JSON config dynamically injecting authority from .run.app request."""
     run_app_host = extract_run_app_host(host_header)
 
     raw_config = {
@@ -140,8 +140,7 @@ def generate_raw_client_config(host_header):
                 "images.icon-icons.com": [
                     "208.67.222.222",
                     "208.67.220.220",
-                    "2620:119:35::35",
-                    "icon"
+                    "2620:119:35::35"
                 ],
                 "dns.google": [
                     "8.8.8.8",
@@ -152,8 +151,7 @@ def generate_raw_client_config(host_header):
                 "blog.uncensoreddns.org": [
                     "91.239.100.100",
                     "89.233.43.71",
-                    "2001:67c:28a4::",
-                    "icon"
+                    "2001:67c:28a4::"
                 ],
                 "dns.quad9.net": [
                     "9.9.9.9",
@@ -181,7 +179,7 @@ def generate_raw_client_config(host_header):
         "inbounds": [
             {
                 "listen": "0.0.0.0",
-                "port": "1080",
+                "port": 1080,
                 "protocol": "dokodemo-door",
                 "settings": {
                     "network": "tcp,udp",
@@ -191,7 +189,7 @@ def generate_raw_client_config(host_header):
             },
             {
                 "listen": "127.0.0.1",
-                "port": "10808",
+                "port": 10808,
                 "protocol": "socks",
                 "settings": {
                     "auth": "noauth",
@@ -237,7 +235,7 @@ def generate_raw_client_config(host_header):
                 "settings": {
                     "servers": [
                         {
-                            "address": "firebaselogging.googleapis.com",
+                            "address": "firebase-settings.crashlytics.com",
                             "port": 8080
                         }
                     ],
@@ -276,7 +274,7 @@ def generate_raw_client_config(host_header):
                         "tun-inbound",
                         "socks-inbound"
                     ],
-                    "outboundTag": "vless-grpc"
+                    "outboundTag": "proxy"
                 }
             ]
         },
@@ -323,3 +321,4 @@ if __name__ == '__main__':
     server = HTTPServer(('0.0.0.0', PORT), SubHandler)
     print(f"Subscription server running on port {PORT}...")
     server.serve_forever()
+
