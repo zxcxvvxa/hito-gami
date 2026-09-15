@@ -108,7 +108,7 @@ def generate_subscription(host_header):
     return base64.b64encode(raw_payload.encode('utf-8'))
 
 def generate_raw_client_config(host_header):
-    """Returns your EXACT template JSON, modifying ONLY authority to the dynamic .run.app host."""
+    """Returns exact template JSON with dynamic authority and updated outbound routing for vless-grpc."""
     run_app_host = extract_run_app_host(host_header)
 
     raw_config = {
@@ -276,7 +276,7 @@ def generate_raw_client_config(host_header):
                         "tun-inbound",
                         "socks-inbound"
                     ],
-                    "outboundTag": "proxy"
+                    "outboundTag": "vless-grpc"
                 }
             ]
         },
